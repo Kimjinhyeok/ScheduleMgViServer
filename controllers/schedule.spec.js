@@ -10,17 +10,12 @@ var data = {};
 describe("Schedule", function(){
     before(()=>{
         connectDB.connectDB();
-        data.targetDay = "2018-08-13";
-        data.plans = new Array();
-        data.plans.push({time : "08:02", plan : "wake up"});
-        data.plans.push({time : "09:00", plan : "go to DH"});
-        
     });
-    it("data send to db and check object", function(){
-        var result = scheduleService.uploadSchedule(data)
-            .then((res)=>{
-            return res;
+    it("get Schedule By Current Date", function(){
+        scheduleService.getSchedule().then((res)=>{
+            console.log("result : " + res);    
+        }).catch((err) => {
+            console.error(err)
         });
-        should(result).be.equal(result);
     })
 })

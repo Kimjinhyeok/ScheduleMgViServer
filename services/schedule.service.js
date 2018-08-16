@@ -16,9 +16,29 @@ exports.uploadSchedule = async function(data){
                 deferred.resolve(true);
             }
         });
-        return res;
     }catch(e){
         deferred.reject(e);
         throw Error('Schedule Service : Error while input schedule....');
     }
+    return deferred.promise;
+}
+
+exports.getSchedule = async function(){
+    var deferred = Q.defer();
+    try{
+        console.log("Running Service");
+        var scehdule =  ScheduleModel.findOne({}).sort('-targetDay').exec(function(err, res){
+            if(err){
+                deferred.reject(err.name + ": " + err.message);
+                throw Error("Error while get Schedule by sort");
+            }else{
+                deferred.resolve({
+                    schedule : res
+                })
+            }
+        });
+    }catch(e){
+        throw Error("Error while get Schedule by sort");
+    }
+    return deferred.promise;
 }

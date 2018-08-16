@@ -1,5 +1,6 @@
 var scheduleService = require('../services/schedule.service');
 var ScheduleVO = require('../data-unit/schedule.vo');
+
 exports.uploadSchedule = async function(req, res, next) {
     
     var newSchedule = new ScheduleVO();
@@ -22,5 +23,25 @@ exports.uploadSchedule = async function(req, res, next) {
         return res.status(400).json({
             error : e.message
         })
+    }
+}
+
+exports.getSchedule = async function(req, res, next){
+    try{
+        scheduleService.getSchedule()
+        .then(schedule =>{
+            return res.status(200).json({
+                value : schedule
+            });
+        })
+        .catch(err =>{
+            return res.status(400).json({
+                error : err.message
+            }); 
+        });
+    }catch(e){
+        return res.status(400).json({
+            error : e.message
+        });
     }
 }
