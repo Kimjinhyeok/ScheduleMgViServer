@@ -7,6 +7,7 @@ var PlanVO = require('../data-unit/plan.vo');
 var scheduleService = require('../services/schedule.service');
 var connectDB = require('../db/db-connector');
 var data = {};
+/*
 describe("Schedule", function(){
     before(()=>{
         connectDB.connectDB();
@@ -17,5 +18,28 @@ describe("Schedule", function(){
         }).catch((err) => {
             console.error(err)
         });
+    })
+})
+*/
+describe("get Schedules", function(){
+    before(done => {
+        connectDB.connectDB();
+        setTimeout(function(){
+            done();
+        }, 1000);
+    });
+    it("let get schedules through service", (done)=>{
+        var schedulePromise = scheduleService.getSchedules();
+        
+        schedulePromise.then( (res) => {
+            var data = res.value;
+            console.log("data's length : " + data.length);
+            should(data.length).greaterThan(0,"길이가 0보다 길어?");
+            done();
+        });
+        schedulePromise.catch( (err) => {
+            should().Error("실패함여" + err);
+            done();
+        })
     })
 })

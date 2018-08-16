@@ -28,13 +28,13 @@ exports.uploadSchedule = async function(req, res, next) {
 
 exports.getSchedule = async function(req, res, next){
     try{
-        scheduleService.getSchedule()
-        .then(schedule =>{
+        schedulePromise = scheduleService.getSchedule();
+        schedulePromise.then(schedule =>{
             return res.status(200).json({
                 value : schedule
             });
         })
-        .catch(err =>{
+        schedulePromise.catch(err =>{
             return res.status(400).json({
                 error : err.message
             }); 
@@ -43,5 +43,25 @@ exports.getSchedule = async function(req, res, next){
         return res.status(400).json({
             error : e.message
         });
+    }
+}
+
+exports.getSchedules = async function(req, res, next){
+    try{
+        var schedulePromise = scheduleService.getSchedules();
+        schedulePromise.then( schedules => {
+            return res.json({
+                schedules
+            })
+        });
+        schedulePromise.catch( err => {
+            return res.status(400).json({
+                error : err.message
+            }); 
+        })
+    }catch(e){
+        return res.status(400).json({
+            error : err.message
+        }); 
     }
 }

@@ -3,4 +3,5 @@ var scheduleController = require('../controllers/schedule.controller');
 
 router.put('/', scheduleController.uploadSchedule);
 router.get('/', scheduleController.getSchedule);
+router.get('/all', scheduleController.getSchedules);
 module.exports = router;
