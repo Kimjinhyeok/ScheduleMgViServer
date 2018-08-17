@@ -76,6 +76,7 @@ exports.updateSchedule = async (schedule) => {
     try{
         await ScheduleModel.update({_id : schedule.id}, {
             'targetDay' : schedule.targetDay,
+            'createDay' : schedule.createDay,
             '$set' : {"plans" : []}
         }, function(err, raw){
             if(err){

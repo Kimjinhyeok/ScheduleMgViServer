@@ -79,7 +79,7 @@ exports.updateSchedule = async function(req, res, next){
         var schedulePromise = scheduleService.updateSchedule(schedule);
         schedulePromise.then( () => {
             return res.json({
-                data : true
+                result : true
             })
         });
         schedulePromise.catch( (err) =>{
