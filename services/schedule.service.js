@@ -6,7 +6,11 @@ _this = this;
 exports.uploadSchedule = async function(data){
     var deferred = Q.defer();
     try{
-        var newSch = new ScheduleModel();
+        var newSch = new ScheduleModel({
+            targetDay : data.targetDay,
+            createDay : data.createDay,
+            plans : data.plans
+        });
         
         var res = newSch.save(function(err, data){
             if(err){
@@ -46,7 +50,7 @@ exports.getSchedule = async function(){
 exports.getSchedules = async () => {
     var deferred = Q.defer();
     try{
-        await ScheduleModel.find({}).sort('-targetDay').exec(
+        await ScheduleModel.find({}).sort('+targetDay').exec(
             function(err, res){
                 if(err){
                     deferred.reject(err.name + ":" + err.message);
@@ -63,5 +67,32 @@ exports.getSchedules = async () => {
         deferred.reject(e);
         throw Error("Error while get Schedules");
     }
+    return deferred.promise;
+}
+
+exports.updateSchedule = async (schedule) => {
+    var deferred = Q.defer();
+
+    try{
+        await ScheduleModel.update({_id : schedule.id}, {
+            'targetDay' : schedule.targetDay,
+            '$set' : {"plans" : []}
+        }, function(err, raw){
+            if(err){
+                deferred.reject(err);
+            }else{
+                ScheduleModel.findByIdAndUpdate(schedule.id,{
+                    '$push' : {"plans" : schedule.plans}
+                }, 
+                    function(err, raw){
+
+                })
+                deferred.resolve(raw);
+            }
+        });
+    }catch(e){
+        deferred.reject(e);
+    }
+
     return deferred.promise;
 }

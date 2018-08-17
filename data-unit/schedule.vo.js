@@ -29,6 +29,6 @@ module.exports = class ScheduleVO{
     constructor(targetDay, plans, createDay){
         this.targetDay = targetDay;
         this.plans = plans;
-        tihs.createDay = createDay;
+        this.createDay = createDay;
     }
 }
