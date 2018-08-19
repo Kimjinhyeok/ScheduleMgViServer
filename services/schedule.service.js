@@ -8,7 +8,8 @@ exports.uploadSchedule = async function(data){
     try{
         var newSch = new ScheduleModel({
             targetDay : data.targetDay,
-            createDay : data.createDay,
+            createDay : new Date(),
+            descript : data.descript,
             plans : data.plans
         });
         

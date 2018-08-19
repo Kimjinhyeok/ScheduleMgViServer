@@ -8,7 +8,7 @@ exports.uploadSchedule = async function(req, res, next) {
 
     newSchedule.targetDay = params.targetDay ? new Date(params.targetDay) : null;
     newSchedule.plans = params.plans ? params.plans : null;
-    newSchedule.createDay = new Date();
+    newSchedule.descript = params.descript ? params.descript : null;
     
     try{
         if(newSchedule.plans == null || newSchedule.targetDay == null) {
@@ -72,6 +72,7 @@ exports.updateSchedule = async function(req, res, next){
     var schedule = {
         id : params._id,
         targetDay : params.targetDay,
+        descript : params.descript,
         createDay : new Date(),
         plans : params.plans
     }
