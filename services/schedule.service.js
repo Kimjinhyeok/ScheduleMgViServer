@@ -97,3 +97,23 @@ exports.updateSchedule = async (schedule) => {
 
     return deferred.promise;
 }
+
+exports.removeSchedule = function(id){
+    var deferred = Q.defer();
+
+    try{
+        ScheduleModel.deleteOne({_id : id}, (err) => {
+            if(err){
+                deferred.reject(err);
+                throw Error(err);
+            }else{
+                deferred.resolve(true);
+            }
+        });
+    }catch(e){
+        deferred.reject(e.message);
+        throw Error(err);
+    }
+
+    return deferred.promise;
+}

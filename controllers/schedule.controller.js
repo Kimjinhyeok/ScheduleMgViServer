@@ -91,3 +91,26 @@ exports.updateSchedule = async function(req, res, next){
 
     }
 }
+
+exports.removeSchedule = function(req, res, next){
+    var id = req.params.id;
+
+    try{
+        var promise = scheduleService.removeSchedule(id);
+
+        promise.then( (result) => {
+            return res.json({
+                result
+            })
+        });
+        promise.catch((err) => {
+            return res.status(400).json({
+                err : err
+            })
+        });
+    }catch(e){
+        return res.status(400).json({
+            err : e.message
+        })
+    }
+}

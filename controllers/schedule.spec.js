@@ -21,20 +21,20 @@ describe("Schedule", function(){
     })
 })
 */
-describe("get Schedules", function(){
+describe("remove Schedules", function(){
     before(done => {
         connectDB.connectDB();
         setTimeout(function(){
             done();
         }, 1000);
     });
-    it("let get schedules through service", (done)=>{
-        var schedulePromise = scheduleService.getSchedules();
+    it("let remove schedules through service", (done)=>{
+        var id = "5b7950662514d20a40c23440"
+        var schedulePromise = scheduleService.removeSchedule(id);
         
         schedulePromise.then( (res) => {
-            var data = res.value;
-            console.log("data's length : " + data.length);
-            should(data.length).greaterThan(0,"길이가 0보다 길어?");
+            var data = res.result;
+            should(data).equal(true, "삭제 성공");
             done();
         });
         schedulePromise.catch( (err) => {
