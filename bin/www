@@ -27,7 +27,14 @@ var server = http.createServer(app);
 
 server.listen(port, function(req, res, next){
   console.log("lanching port : " + port);
-  dbConnector.connectDB();
+  var promise = dbConnector.connectDB();
+  promise.then((db)=>{
+    dbConnector.connected(db);
+  });
+  promise.catch((err, db)=>{
+    console.err(err);
+    dbConnector.alterResult(err, db);
+  })
 });
 server.on('error', onError);
 server.on('listening', onListening);

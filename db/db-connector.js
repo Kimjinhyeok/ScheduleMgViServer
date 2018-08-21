@@ -33,7 +33,7 @@ mongoConnector.alterResult = function(err, db){
 
 mongoConnector.connectDB = function(){
     //connect(string, callback)
-    mongoose.connect(this.url, this.alterResult);   
+    return mongoose.connect(this.url);   
 }
 
 module.exports = mongoConnector;
