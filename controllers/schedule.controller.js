@@ -46,9 +46,9 @@ exports.getSchedule = async function(req, res, next){
     }
 }
 
-exports.getSchedules = async function(req, res, next){
+exports.getAllSchedules = async function(req, res, next){
     try{
-        var schedulePromise = scheduleService.getSchedules();
+        var schedulePromise = scheduleService.getAllSchedules();
         schedulePromise.then( schedules => {
             return res.json({
                 schedules
@@ -63,6 +63,24 @@ exports.getSchedules = async function(req, res, next){
         return res.status(400).json({
             error : err.message
         }); 
+    }
+}
+
+exports.getActivateSchedules = async function(req, res){
+    try{
+        var promise = scheduleService.getActivateSchedules();
+        promise.then((data) => {
+            res.status(200).json({
+                data
+            })
+        });
+        promise.catch((err) => {
+            throw Error(err);
+        });
+    }catch(e){
+        return res.status(400).json({
+            error : e
+        })
     }
 }
 

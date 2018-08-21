@@ -48,7 +48,7 @@ exports.getSchedule = async function(){
     return deferred.promise;
 }
 
-exports.getSchedules = async () => {
+exports.getAllSchedules = async () => {
     var deferred = Q.defer();
     try{
         await ScheduleModel.find({}).sort('+targetDay').exec(
@@ -68,6 +68,28 @@ exports.getSchedules = async () => {
         deferred.reject(e);
         throw Error("Error while get Schedules");
     }
+    return deferred.promise;
+}
+
+exports.getActivateSchedules = async () => {
+    var deferred = Q.defer();
+    try{
+
+        // 10개 한정으로 가져오기
+        ScheduleModel.find({activate : true}).limit(10).sort('targetDay')
+        .exec(function(err, res){
+            if(err){
+                throw Error(err);
+            }else{
+                deferred.resolve(res);
+            }
+        });
+            
+    }catch(e){
+        deferred.reject(e.message);
+        throw Error("Error while get activate schedules");
+    }
+
     return deferred.promise;
 }
 
