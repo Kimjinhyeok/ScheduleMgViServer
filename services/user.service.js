@@ -2,7 +2,7 @@
 var UserModel = require('../models/user.model');
 var Q = require('q');
 
-exports.userRegister = function(userData){
+exports.userRegister = async function(userData){
     var deferred = Q.defer();
     try{
         var newUser = new UserModel({
@@ -22,5 +22,30 @@ exports.userRegister = function(userData){
         deferred.reject(e);
     }
 
+    return deferred.promise;
+}
+
+exports.checkDuplicationID = async function(name){
+    var deferred = Q.defer();
+
+    try{
+        UserModel.find({name : name}, function(err, res){
+            if(err){
+
+            }else{
+                if(res){
+                    deferred.resolve({
+                        isDuplicated : true
+                    });
+                }else{
+                    deferred.resolve({
+                        isDuplicated : false
+                    })
+                }
+            }
+        });
+    }catch(e){
+        deferred.reject(e);
+    }
     return deferred.promise;
 }

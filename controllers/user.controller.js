@@ -24,3 +24,24 @@ exports.userRegister = async function (req, res) {
         })
     }    
 }
+
+exports.checkDuplicatedID = async function(req, res){
+    var name = req.params.name;
+
+    try{
+        var promise = userService.checkDuplicationID(name);
+        promise.then((rs)=>{
+            res.json({
+                status : 200,
+                isDuplicated : rs.isDuplicated
+            });
+        }).catch((err)=>{
+            res.json({
+                status : 400,
+                isDuplicated : null
+            })
+        })
+    }catch(e){
+        throw Error(e);
+    }
+}
