@@ -5,4 +5,5 @@ var router = express.Router();
 
 router.put('/', userController.userRegister);
 router.get('/:name', userController.checkDuplicatedID);
+router.get('/:id', userController.getUserInfomation);
 module.exports = router;

@@ -49,3 +49,31 @@ exports.checkDuplicationID = async function(name){
     }
     return deferred.promise;
 }
+
+exports.getUserInfomation = async function(id){
+    var deferred = Q.defer();
+
+    try{
+        UserModel.findOne(id, function(err, res){
+            if(err){
+                deferred.reject({
+                    err : err
+                });
+            }else{
+                if(res){
+                    deferred.resolve({
+                        res
+                    });
+                }else{
+                    deferred.reject({
+                        err : "some error apear while finding user's infomation"
+                    });
+                }
+            }
+        })
+    }catch(e){
+        throw new Error(e);
+    }
+
+    return deferred.promise;
+}

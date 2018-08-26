@@ -45,3 +45,27 @@ exports.checkDuplicatedID = async function(req, res){
         throw Error(e);
     }
 }
+
+exports.getUserInfomation = async function(req, res){
+    var id = req.params.id;
+
+    try{
+        var promise = userService.getUserInfomation(id);
+        promise.then((rs) => {
+            res.json({
+                status : 200,
+                data : rs
+            })
+        }).catch((err) => {
+            res.json({
+                status : 400,
+                err : err
+            })
+        });
+    }catch(e){
+        res.json({
+            status : 400,
+            err : e
+        })
+    }
+}
