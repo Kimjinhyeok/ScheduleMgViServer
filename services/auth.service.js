@@ -13,7 +13,7 @@ exports.authUserLogin = async function(name, password){
                 throw Error(err);
             }else{
                 if(res == null){
-                    throw Error("Can not find equal infomation");
+                    deferred.reject("ERR-MATCH:Can not find equal infomation");
                 }else{
                     var id = res.id;
                     deferred.resolve({

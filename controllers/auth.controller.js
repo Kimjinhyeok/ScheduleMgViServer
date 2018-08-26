@@ -12,7 +12,9 @@ exports.authUserLogin = async function(req, res) {
             })
         });
         promise.catch((err) => {
-            throw Error(err);
+            res.status(400).json({
+                message : err
+            });
         });
     }catch(e){
         res.status(400).json({
