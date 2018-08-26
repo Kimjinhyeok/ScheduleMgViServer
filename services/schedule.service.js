@@ -7,6 +7,7 @@ exports.uploadSchedule = async function(data){
     var deferred = Q.defer();
     try{
         var newSch = new ScheduleModel({
+            user : data.user,
             targetDay : data.targetDay,
             createDay : new Date(),
             descript : data.descript,

@@ -3,15 +3,17 @@ var ScheduleVO = require('../data-unit/schedule.vo');
 
 exports.uploadSchedule = async function(req, res, next) {
     
-    var newSchedule = new ScheduleVO();
     var params = req.body.params;
 
-    newSchedule.targetDay = params.targetDay ? new Date(params.targetDay) : null;
-    newSchedule.plans = params.plans ? params.plans : null;
-    newSchedule.descript = params.descript ? params.descript : null;
-    
+    var newSchedule = new ScheduleVO(
+        params.id,
+        params.targetDay,
+        params.plans,
+        params.descript
+    );
+
     try{
-        if(newSchedule.plans == null || newSchedule.targetDay == null) {
+        if(!newSchedule.getValid()) {
             throw Error("Parameter Error!");
         }
         var result = await scheduleService.uploadSchedule(newSchedule);

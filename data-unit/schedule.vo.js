@@ -26,9 +26,20 @@
 // module.exports = ScheduleVO;
 
 module.exports = class ScheduleVO{
-    constructor(targetDay, plans, createDay){
+    constructor(user = null, targetDay = null, plans = null, descript = null, createDay = null, activated = null){
+        this.user = user;
         this.targetDay = targetDay;
         this.plans = plans;
+        this.descript = descript;
         this.createDay = createDay;
+        this.activated = activated;
+    }
+
+    getValid(){
+        if(this.user || this.targetDay || this.plans){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
