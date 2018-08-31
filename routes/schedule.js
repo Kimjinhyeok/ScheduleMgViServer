@@ -5,6 +5,6 @@ router.put('/', scheduleController.uploadSchedule);
 router.put('/:id', scheduleController.updateSchedule);
 router.get('/', scheduleController.getSchedule);
 router.get('/all', scheduleController.getAllSchedules);
-router.get('/activate', scheduleController.getActivateSchedules);
+router.get('/activate/:id', scheduleController.getActivateSchedules);
 router.delete('/:id', scheduleController.removeSchedule);
 module.exports = router;

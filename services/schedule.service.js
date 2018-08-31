@@ -72,12 +72,12 @@ exports.getAllSchedules = async () => {
     return deferred.promise;
 }
 
-exports.getActivateSchedules = async () => {
+exports.getActivateSchedules = async (user) => {
     var deferred = Q.defer();
     try{
 
         // 10개 한정으로 가져오기
-        ScheduleModel.find({activate : true}).limit(10).sort('targetDay')
+        ScheduleModel.find({user : user, activate : true}).limit(10).sort('targetDay')
         .exec(function(err, res){
             if(err){
                 throw Error(err);
@@ -140,4 +140,21 @@ exports.removeSchedule = function(id){
     }
 
     return deferred.promise;
+}
+
+// 등록된 유저(id)의 스케줄 중 activate되어 있는데 target날짜가 지난건 false로 한다.
+exports.checkPassingDueDate = function(id){
+    try{
+        scheduleModel.find({user : id},{targetDay : {$lt : new Date().setHours(0,0,0)}, activate : true})
+        .update({}, {$set : {activate : false}}, {multi : true}, 
+            function(err, res){
+                if(err){
+                    console.error(err);
+                }else{
+                    console.log(`#Schedules ${id}'s ${res.nModified}`);
+                }
+            });
+    }catch(e){
+        throw Error(err);
+    }
 }

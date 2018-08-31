@@ -28,18 +28,17 @@ describe("remove Schedules", function(){
             done();
         }, 1000);
     });
-    it("let remove schedules through service", (done)=>{
-        var id = "5b7950662514d20a40c23440"
-        var schedulePromise = scheduleService.removeSchedule(id);
-        
-        schedulePromise.then( (res) => {
-            var data = res.result;
-            should(data).equal(true, "삭제 성공");
-            done();
+    it("get letter date schedule", (done)=>{
+        scheduleModel.find({targetDay : {$lt : new Date().setHours(0,0,0)}, activate : true})
+        .update({}, {$set : {activate : false}}, {multi : true}, function(err, res){
+            if(err){
+                should.fail();
+                done();
+            }else{
+                console.log(res);
+                should.exist(res);
+                done();
+            }
         });
-        schedulePromise.catch( (err) => {
-            should().Error("실패함여" + err);
-            done();
-        })
     })
 })

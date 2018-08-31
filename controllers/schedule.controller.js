@@ -69,8 +69,9 @@ exports.getAllSchedules = async function(req, res, next){
 }
 
 exports.getActivateSchedules = async function(req, res){
+    var id = req.params.id;
     try{
-        var promise = scheduleService.getActivateSchedules();
+        var promise = scheduleService.getActivateSchedules(id);
         promise.then((data) => {
             res.status(200).json({
                 data
