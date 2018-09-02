@@ -145,7 +145,7 @@ exports.removeSchedule = function(id){
 // 등록된 유저(id)의 스케줄 중 activate되어 있는데 target날짜가 지난건 false로 한다.
 exports.checkPassingDueDate = function(id){
     try{
-        scheduleModel.find({user : id},{targetDay : {$lt : new Date().setHours(0,0,0)}, activate : true})
+        ScheduleModel.find({user : id},{targetDay : {$lt : new Date().setHours(0,0,0)}, activate : true})
         .update({}, {$set : {activate : false}}, {multi : true}, 
             function(err, res){
                 if(err){
@@ -155,6 +155,6 @@ exports.checkPassingDueDate = function(id){
                 }
             });
     }catch(e){
-        throw Error(err);
+        throw Error(e);
     }
 }
