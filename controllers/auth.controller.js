@@ -10,15 +10,16 @@ exports.authUserLogin = async function(req, res) {
         var promise = authService.authUserLogin(name, password);
         promise.then((resolve) =>  {
             //기한일(목표일)이 지난 일정을 비활성화 시킨다.
-            scService.checkPassingDueDate(resolve.id);
+            let userID = resolve.id;
+            scService.checkPassingDueDate(userID);
             var p = new Promise((resolve, reject) => {
                 jwt.sign({
-                    userID : resolve.id,
+                    userID : userID,
                     userName : name
                 },
                 'abcd1234',
                 {
-                    expiresIn : '7d',
+                    expiresIn : '10m',
                     subject : 'userInfo',
                     issuer : 'kjh'
                 },(err, token) => {
