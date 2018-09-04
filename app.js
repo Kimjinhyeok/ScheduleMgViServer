@@ -3,8 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var routers = require('./routes/RouterManage');
+
+var configLoader = require('./modules/config.loader');
 
 var app = express();
 
@@ -16,9 +17,14 @@ app.use(function(req, res, next) {
   next();
 });
 
+/*
+  Using Custom MiddleWare
+*/
+app.use(configLoader.initJwtConfig);
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
+
 
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -33,6 +39,8 @@ app.use('/', routers);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+
 /*
 app.use(express.static("my-app"));
 app.use('/', (req, res, next) => {
