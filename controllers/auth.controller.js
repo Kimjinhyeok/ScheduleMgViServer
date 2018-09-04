@@ -2,7 +2,7 @@ var authService = require('../services/auth.service');
 var scService = require('../services/schedule.service');
 var jwt = require('jsonwebtoken');
 
-exports.authUserLogin = async function(req, res) {
+exports.authUserLogin = function(req, res) {
     var name = req.body.name;
     var password = req.body.password;
 
@@ -17,11 +17,11 @@ exports.authUserLogin = async function(req, res) {
                     userID : userID,
                     userName : name
                 },
-                'abcd1234',
+                process.env.JWT_SECRET,
                 {
-                    expiresIn : '10m',
-                    subject : 'userInfo',
-                    issuer : 'kjh'
+                    expiresIn : '1h',
+                    subject : process.env.JWT_SUBJECT,
+                    issuer : process.env.JWT_ISSUER
                 },(err, token) => {
                     if(err){
                         reject(err);
