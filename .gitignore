@@ -59,6 +59,6 @@ typings/
 
 # next.js build output
 .next
+config/jwtConfig.json
 package-lock.json
 package.json
-config/jwtConfig.json
