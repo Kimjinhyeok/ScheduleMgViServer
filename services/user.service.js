@@ -1,26 +1,23 @@
 
 var UserModel = require('../models/user.model');
+
 var Q = require('q');
 
 exports.userRegister = async function(userData){
     var deferred = Q.defer();
-    try{
-        var newUser = new UserModel({
-            isprivacy : userData.type === 'privacy' ? true : false,
-            name : userData.name,
-            password : userData.password,
-            email : userData.email
-        });
-        newUser.save(function(err, res){
-            if(err){
-                throw Error(err);
-            }else{
-                deferred.resolve(true);
-            }
-        })
-    }catch(e){
-        deferred.reject(e);
-    }
+    var newUser = new UserModel({
+        isprivacy : userData.type === 'privacy' ? true : false,
+        name : userData.name,
+        salt : userData.salt,
+        password : userData.password,
+        email : userData.email
+    });
+    newUser.save()
+    .then((result) => {
+        deferred.resolve(result);
+    }).catch((err) => {
+        deferred.reject(err);
+    }) 
 
     return deferred.promise;
 }
@@ -31,7 +28,7 @@ exports.checkDuplicationID = async function(name){
     try{
         UserModel.find({name : name}, function(err, res){
             if(err){
-
+                deferred.reject(err);
             }else{
                 if(res){
                     deferred.resolve({

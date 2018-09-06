@@ -1,7 +1,8 @@
 var userService = require('../services/user.service');
+var encryptor = require('../modules/encryptor');
 
 exports.userRegister = async function (req, res) {
-    var params = req.body.params;
+    var params = req.body.formValue;
     try{
         user = {
             type : params.type,
@@ -9,18 +10,17 @@ exports.userRegister = async function (req, res) {
             password : params.password,
             email : params.email
         }
-        var promise = userService.userRegister(user);
-        promise.then((rs)=>{
-            res.status(200).json({
-                result : rs
-            })
-        });
-        promise.catch((err)=>{
-            throw Error(err);
-        });
+        userEncryptInfo = encryptor.setSaltHashPassword(user.password);
+        user.salt = userEncryptInfo.salt;
+        user.password = userEncryptInfo.passwordHash;
+
+        var userData = await userService.userRegister(user);
+        res.status(200).json({
+            result : userData
+        })
     }catch(e){
         res.status(400).json({
-            err : e
+            err : e.message
         })
     }    
 }
