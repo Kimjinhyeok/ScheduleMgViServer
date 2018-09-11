@@ -4,6 +4,7 @@ var router = express.Router();
 /* GET users listing. */
 
 router.put('/', userController.userRegister);
-router.get('/:name', userController.checkDuplicatedID);
+router.post('/', userController.naver);
+router.get('/chk/:name', userController.checkDuplicatedID);
 router.get('/:id', userController.getUserInfomation);
 module.exports = router;
